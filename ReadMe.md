@@ -74,3 +74,11 @@ FULL OUTER JOIN Customers
 ON Cars.CustomerID = Customers.CustomerID;
 ```
 Result:
+
+# ACID Properties
+ACID properties are a set of properties that ensure reliable processing of database transactions. ACID stands for:
+
+* Atomicity: Ensures that all operations within a transaction are completed; if not, the transaction is aborted.
+* Consistency: Ensures the database remains in a consistent state before and after the transaction.
+* Isolation: Ensures that transactions are isolated from each other.
+* Durability: Ensures that once a transaction is committed, it remains in the system even in the event of a failure.
