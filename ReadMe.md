@@ -82,3 +82,38 @@ ACID properties are a set of properties that ensure reliable processing of datab
 * Consistency: Ensures the database remains in a consistent state before and after the transaction.
 * Isolation: Ensures that transactions are isolated from each other.
 * Durability: Ensures that once a transaction is committed, it remains in the system even in the event of a failure.
+
+## Normalization
+Normalization is a database design technique to reduce redundancy and dependency by organizing fields and table relations. The process involves dividing a database into two or more tables and defining relationships between them to increase data consistency.
+
+Example with Cars and Customers:
+
+## First Normal Form (1NF)
+1NF ensures that the table is flat, i.e., it has no repeating groups and every entry is atomic.
+
+Example: Instead of:
+
+
+We split it into: Cars:
+
+Customers:
+
+## Second Normal Form (2NF)
+2NF ensures that the table is in 1NF and all non-key attributes are fully functional dependent on the primary key.
+
+If we have: CarOwnership:
+
+This means the OwnershipDate depends on both CarID and CustomerID, forming a composite key.
+
+## Third Normal Form (3NF)
+3NF ensures that the table is in 2NF and all the attributes are dependent only on the primary key, i.e., there are no transitive dependencies.
+
+Example: If we have a table with car details and their owner's addresses, we should separate them: Cars:
+
+Customers:
+
+## Boyce-Codd Normal Form (BCNF)
+BCNF is an extension of the third normal form (3NF) and ensures there are no non-trivial functional dependencies in a table except the super key.
+
+Example: If a customer can own multiple cars but each car is associated with a unique owner: CarOwnership:
+
