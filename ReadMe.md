@@ -11,9 +11,18 @@ Here are the procedures on how you can implement ```JOINS```
 **Create Tables**: We will use two tables, `cars` and `customer` for our examples.
 ```sql
 CREATE TABLE cars (
-    car_id S
-)
+    car_id SERIAL PRIMARY KEY,
+    car_name VARCHAR(50),
+    customer_id INT
+);
+
+CREATE TABLE customers (
+    customer_id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(50)
+);
+
 ```
+<img src="assets/img1.png" alt="Create table" width="500">
 
 ## Inner Join
 An inner join returns records that have matching values in both tables. It only returns the rows where there's a match in both tables.
@@ -33,6 +42,8 @@ ON Cars.CustomerID = Customers.CustomerID;
 ```
 Result:
 
+<img src="assets/Inner Join.png" alt="Create table" width="500">
+
 ## Left Join
 A left join returns all records from the left table (Cars), and the matched records from the right table (Customers). The result is NULL from the right side if there is no match.
 
@@ -46,6 +57,8 @@ LEFT JOIN Customers
 ON Cars.CustomerID = Customers.CustomerID;
 ```
 Result:
+
+<img src="assets/left Join.png" alt="Create table" width="500">
 
 ## Right Join
 A right join returns all records from the right table (Customers), and the matched records from the left table (Cars). The result is NULL from the left side when there is no match.
@@ -61,6 +74,8 @@ ON Cars.CustomerID = Customers.CustomerID;
 ```
 Result:
 
+<img src="assets/right join.png" alt="Create table" width="500">
+
 ## Full Join
 A full join returns all records when there is a match in either left or right table records. This means it returns all records from the left table (Cars) and the right table (Customers), with NULLs in places where the join condition is not met.
 
@@ -75,6 +90,8 @@ ON Cars.CustomerID = Customers.CustomerID;
 ```
 Result:
 
+<img src="assets/full outer join.png" alt="Create table" width="500">
+
 # ACID Properties
 ACID properties are a set of properties that ensure reliable processing of database transactions. ACID stands for:
 
@@ -86,17 +103,12 @@ ACID properties are a set of properties that ensure reliable processing of datab
 ## Normalization
 Normalization is a database design technique to reduce redundancy and dependency by organizing fields and table relations. The process involves dividing a database into two or more tables and defining relationships between them to increase data consistency.
 
-Example with Cars and Customers:
+Example:
+
+<img src="assets/normalization.png" alt="Create table" width="500">
 
 ## First Normal Form (1NF)
 1NF ensures that the table is flat, i.e., it has no repeating groups and every entry is atomic.
-
-Example: Instead of:
-
-
-We split it into: Cars:
-
-Customers:
 
 ## Second Normal Form (2NF)
 2NF ensures that the table is in 1NF and all non-key attributes are fully functional dependent on the primary key.
@@ -105,15 +117,52 @@ If we have: CarOwnership:
 
 This means the OwnershipDate depends on both CarID and CustomerID, forming a composite key.
 
+```sql
+CREATE TABLE car_ownership (
+    car_id INT,
+    customer_id INT,
+    ownership_date DATE,
+    PRIMARY KEY (car_id, customer_id)
+);
+```
+
 ## Third Normal Form (3NF)
 3NF ensures that the table is in 2NF and all the attributes are dependent only on the primary key, i.e., there are no transitive dependencies.
 
 Example: If we have a table with car details and their owner's addresses, we should separate them: Cars:
 
-Customers:
+```sql
+CREATE TABLE cars (
+    car_id SERIAL PRIMARY KEY,
+    car_name VARCHAR(50),
+    customer_id INT
+);
+
+CREATE TABLE customers (
+    customer_id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(50),
+    customer_address VARCHAR(100)
+);
+```
 
 ## Boyce-Codd Normal Form (BCNF)
 BCNF is an extension of the third normal form (3NF) and ensures there are no non-trivial functional dependencies in a table except the super key.
 
 Example: If a customer can own multiple cars but each car is associated with a unique owner: CarOwnership:
+
+```sql
+CREATE TABLE car_ownership (
+    car_id INT,
+    customer_id INT,
+    PRIMARY KEY (car_id)
+);
+
+CREATE TABLE customers (
+    customer_id SERIAL PRIMARY KEY,
+    customer_name VARCHAR(50)
+);
+```
+
+<img src="assets/normalization1.png" alt="Create table" width="500">
+
 
